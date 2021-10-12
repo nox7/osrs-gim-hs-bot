@@ -1,0 +1,26 @@
+{
+  "name": "osrs-gim-hs-bot",
+  "version": "1.0.0",
+  "description": "Fetches the Group Ironman Total Level for Budget Taps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nox7/osrs-gim-hs-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/nox7/osrs-gim-hs-bot/issues"
+  },
+  "homepage": "https://github.com/nox7/osrs-gim-hs-bot#readme",
+  "dependencies": {
+    "discord.js": "^13.2.0",
+    "dotenv": "^10.0.0",
+    "jsdom": "^18.0.0",
+    "node-fetch": "^3.0.0"
+  }
+}
