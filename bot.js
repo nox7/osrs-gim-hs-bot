@@ -1,12 +1,13 @@
 // Require the necessary discord.js classes
 import fetch from "node-fetch";
 import StatFetcher from "./classes/StatFetcher.js";
-import {JSDOM} from "jsdom";
 
 (async () => {
 	const { Client, Intents } = await import('discord.js');
 	const dotenv = await import('dotenv');
 	const jsdom = await import("jsdom");
+
+	const playerStatsCheckRegex = /^\?stats (\d)$/;
 
 	dotenv.config();
 
@@ -27,9 +28,20 @@ import {JSDOM} from "jsdom";
 		if (!author.bot){
 			if (content === "?stats"){
 				ironOSRSChannel.send("Fetching...");
-				const statsAsText = await StatFetcher.getStatsAsString();
+				const statsAsText = await StatFetcher.getAllTotals();
 				const message = `${author} Here you are, \n${statsAsText}`;
 				ironOSRSChannel.send(message);
+			}else if (playerStatsCheckRegex.test(content)){
+				const matches = content.match(playerStatsCheckRegex);
+				if (matches){
+					const playerIndex = parseInt(matches[1]);
+					const playerStatsAsText = await StatFetcher.getPlayerTotals(playerIndex);
+					ironOSRSChannel.send(playerStatsAsText);
+				}else{
+					ironOSRSChannel.send(`Error processing your stats check request. No valid player index provided.`);
+				}
+			}else if (content === "?help"){
+				ironOSRSChannel.send(`**Comands**\n\`?stats\` - Will fetch the total levels and XP of all the group irons.\n\`?stats NUMBER_HERE\` - Will fetch the skills and experience for an individual player. The number relates to the index from the \`?stats\` command.`);
 			}
 		}
 	});
