@@ -99,7 +99,7 @@ class StatFetcher{
 					const innerRows = tableRow.querySelectorAll(".uc-scroll__table-cell");
 					const skillName = innerRows[0].textContent.trim();
 					const skillLevel = innerRows[1].textContent.trim();
-					const skillXP = innerRows[2].textContent.trim().replace(",", "");
+					const skillXP = innerRows[2].textContent.trim().replace(/,/g, "");
 					skills.push({
 						skillName: skillName,
 						skillLevel: parseInt(skillLevel),
