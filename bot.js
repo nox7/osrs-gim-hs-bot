@@ -34,6 +34,7 @@ import StatFetcher from "./classes/StatFetcher.js";
 			}else if (playerStatsCheckRegex.test(content)){
 				const matches = content.match(playerStatsCheckRegex);
 				if (matches){
+					ironOSRSChannel.send(`One sec, grabbing their stats...`);
 					const playerIndex = parseInt(matches[1]);
 					const playerStatsAsText = await StatFetcher.getPlayerTotals(playerIndex);
 					ironOSRSChannel.send(playerStatsAsText);
