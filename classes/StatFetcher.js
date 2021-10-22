@@ -99,28 +99,31 @@ class StatFetcher{
 					const innerRows = tableRow.querySelectorAll(".uc-scroll__table-cell");
 					const skillName = innerRows[0].textContent.trim();
 					const skillLevel = innerRows[1].textContent.trim();
-					const skillXP = innerRows[2].textContent.trim();
+					const skillXP = innerRows[2].textContent.trim().replace(",", "");
 					skills.push({
 						skillName: skillName,
-						skillLevel: skillLevel,
-						skillXP: skillXP
+						skillLevel: parseInt(skillLevel),
+						skillXP: parseInt(skillXP)
 					});
 				}
 
-				// Sort descending by skill levels
+				// Sort descending by skill levels, then sort again by XP for collisions
+				skills.sort((a,b) => {
+					return a.skillLevel < b.skillLevel ? 1 : -1;
+				});
 				skills.sort((a,b) => {
 					// Handle when skill levels are the same
 					if (a.skillLevel === b.skillLevel){
 						return a.skillXP < b.skillXP ? 1 : -1;
 					}else{
-						return a.skillLevel < b.skillLevel ? 1 : -1;
+						// Keep them as-is
+						return 0;
 					}
 				});
 
 				for (const skillData of skills){
-					// OSRS Hiscores handles the number formatting for us
-					//const formattedExperience = String(skillData.skillXP).replace(/(.)(?=(\d{3})+$)/g,'$1,')
-					postContent += `${skillData.skillName} | ${skillData.skillLevel} | ${skillData.skillXP}\n`;
+					const formattedExperience = String(skillData.skillXP).replace(/(.)(?=(\d{3})+$)/g,'$1,')
+					postContent += `${skillData.skillName} | ${skillData.skillLevel} | ${formattedExperience}\n`;
 				}
 
 				// Finished
